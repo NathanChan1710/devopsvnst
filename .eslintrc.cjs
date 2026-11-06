@@ -2,13 +2,13 @@ module.exports = {
   root: true,
   env: {
     node: true,
-    es2021: true
+    es2022: true
   },
   extends: [
     'standard'
   ],
   parserOptions: {
-    ecmaVersion: 12,
+    ecmaVersion: 'latest',
     sourceType: 'module'
   },
   rules: {}

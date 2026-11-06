@@ -6,7 +6,7 @@ export default defineConfig({
       provider: 'v8',
       include: ['src/**/*.js'],
       reporter: ['text', 'html'],
-      thresholds: { lines: 80, functions: 80, branches: 70, statements: 80 },
-    },
-  },
+      thresholds: { lines: 80, functions: 80, branches: 70, statements: 80 }
+    }
+  }
 })
