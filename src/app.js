@@ -12,12 +12,13 @@ const app = express()
 app.get('/', (_req, res) => res.json({ ok: true, message: 'Hello from CI/CD demo 👋' }))
 app.get('/health', (_req, res) => res.status(200).send('OK'))
 
+// Auto-mount all routers under src/routes/auto (ESM dynamic import)
 const autoDir = path.join(__dirname, 'routes', 'auto')
 if (fs.existsSync(autoDir)) {
-  const files = fs.readdirSync(autoDir).filter(f => f.endsWith('.route.js'))
+  const files = fs.readdirSync(autoDir).filter(f => f.endsWith('.route.js')).sort()
   for (const f of files) {
     const mod = await import(pathToFileURL(path.join(autoDir, f)).href)
-    const router = mod.default || mod
+    const router = mod.default ?? mod
     if (router) app.use('/', router)
   }
 }
