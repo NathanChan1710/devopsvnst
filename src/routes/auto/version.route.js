@@ -1,23 +1,18 @@
 /**
- * GET /version → { version: "<package.json version>" }
- * Reads version from package.json to keep it source-of-truth.
+ * DEVOPS-9 (story A, "DEVOPS-1" in the lab) — GET /version
+ *
+ * Exposes the current application version: { "version": "x.x.x" }
+ * The value is read from package.json through getPackageInfo(), so
+ * package.json stays the single source of truth (shared with /info).
  */
 import { Router } from 'express'
-import fs from 'node:fs'
-import path from 'node:path'
-import { fileURLToPath } from 'node:url'
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
-
-// src/routes/auto → src/routes → src → racine du projet
-const pkg = JSON.parse(
-  fs.readFileSync(path.join(__dirname, '..', '..', '..', 'package.json'), 'utf-8')
-)
+import { getPackageInfo } from '../../utils/appInfo.js'
 
 const router = Router()
 
 router.get('/version', (_req, res) => {
-  res.status(200).json({ version: pkg.version })
+  const { version } = getPackageInfo()
+  res.status(200).json({ version })
 })
 
 export default router
